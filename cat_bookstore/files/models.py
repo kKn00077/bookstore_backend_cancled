@@ -4,6 +4,11 @@ from django.conf import settings
 
 class FileGroup(TimeStampedModel):
     file_group_id = models.AutoField(primary_key=True)
+    class Meta:
+        ordering = ['-created']
+
+        verbose_name = '파일 그룹'
+        verbose_name_plural = '파일 그룹'
 
 
 class File(TimeStampedModel):
