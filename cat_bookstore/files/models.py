@@ -24,7 +24,7 @@ class File(TimeStampedModel):
     origin_name = models.CharField(max_length=FILE_URL_MAX_LEN)
     
     # TODO: upload 경로는 추후에 필요 시에 변경
-    path = models.FileField(upload_to='img')
+    path = models.FileField(upload_to='img', max_length=FILE_URL_MAX_LEN)
     
     origin_path = models.CharField(max_length=FILE_URL_MAX_LEN)
     
