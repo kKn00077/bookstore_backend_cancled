@@ -1,3 +1,17 @@
 from django.db import models
+from model_utils.models import TimeStampedModel
 
-# Create your models here.
+class AppNotice(TimeStampedModel):
+
+    notice_id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=300)
+    contents = models.TextField()
+
+    class Meta:
+        ordering = ['-notice_id']
+
+        verbose_name = '공지'
+        verbose_name_plural = '공지'
+
+    def __str__(self):
+        return f'{self.title} ({self.created})'
