@@ -2,6 +2,7 @@ from django.db import models
 from model_utils.models import TimeStampedModel
 from django.conf import settings
 
+
 class FileGroup(TimeStampedModel):
     file_group_id = models.AutoField(primary_key=True)
     class Meta:

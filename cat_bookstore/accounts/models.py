@@ -5,6 +5,7 @@ from django.contrib.auth.models import AbstractBaseUser,BaseUserManager,Permissi
 from model_utils import Choices
 from django.conf import settings
 
+
 class UserManager(BaseUserManager):
     """
         User를 생성할때 사용하는 클래스
