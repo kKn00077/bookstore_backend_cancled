@@ -24,6 +24,9 @@ MEDIA_URL = '/file/'
 # 파일 업로드 사이즈 최대값
 FILE_UPLOAD_MAX_SIZE = '2621440'
 
+# URL 최대 문자열 길이
+URL_MAX_LEN = 500
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
