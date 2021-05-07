@@ -3,6 +3,9 @@ from accounts.models import UserAccount
 from model_utils.fields import AutoCreatedField
 
 class UserPushInfo(models.Model):
+    """
+        유저 푸시 정보 관련
+    """
     
     account_id = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
     registration_token = models.CharField(max_length=500, primary_key=True)

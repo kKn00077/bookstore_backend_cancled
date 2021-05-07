@@ -4,6 +4,10 @@ from django.conf import settings
 
 
 class FileGroup(TimeStampedModel):
+    """
+        묶음 파일 관련 정보
+    """
+
     file_group_id = models.AutoField(primary_key=True)
     class Meta:
         ordering = ['-created']
@@ -13,6 +17,9 @@ class FileGroup(TimeStampedModel):
 
 
 class File(TimeStampedModel):
+    """
+        파일 업로드 관련 정보
+    """
 
     FILE_URL_MAX_LEN = 260
 
