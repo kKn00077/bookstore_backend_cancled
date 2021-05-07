@@ -59,7 +59,7 @@ class UserAccount(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
 
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'phone'
-    # REQUIRED_FIELDS = ['phone']
+    # REQUIRED_FIELDS = ['email']
 
     class Meta:
         ordering = ['-account_id']
