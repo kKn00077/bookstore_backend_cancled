@@ -3,6 +3,7 @@ from files.models import File
 from model_utils.models import TimeStampedModel
 from django.contrib.auth.models import AbstractBaseUser,BaseUserManager,PermissionsMixin
 from model_utils import Choices
+from model_utils.fields import StatusField
 from django.conf import settings
 
 
@@ -56,7 +57,7 @@ class UserAccount(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True, null=True)
     phone = models.CharField(max_length=11, unique=True)
 
-    status = models.CharField(max_length=30, choices=STATUS, default=STATUS.USE)
+    status = StatusField(max_length=30, default=STATUS.USE)
 
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'phone'
@@ -94,7 +95,7 @@ class UserProfile(models.Model):
     name = models.CharField(max_length=30)
     birth = models.DateField()
     nickname = models.CharField(max_length=30)
-    gender = models.CharField(max_length=30, choices=GENDER)
+    gender = StatusField(max_length=30, choices_name='GENDER')
 
     class Meta:
         ordering = ['-profile_id']
