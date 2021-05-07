@@ -1,5 +1,4 @@
 from django.db import models
-from files.models import File 
 from model_utils.models import TimeStampedModel
 from django.contrib.auth.models import AbstractBaseUser,BaseUserManager,PermissionsMixin
 from model_utils import Choices
@@ -18,18 +17,33 @@ class UserManager(BaseUserManager):
         """
         Creates and saves a User with the given phone and password.
         """
+
         if not phone:
             raise ValueError('The given phone must be set')
+
         user = self.model(phone=phone, **extra_fields)
         user.set_password(password)
+
         user.save(using=self._db)
+        
         return user
 
     def create_user(self, phone, password=None, **extra_fields):
+        """
+            일반 유저 생성 시
+        """
+
         extra_fields.setdefault('is_superuser', False)
         return self._create_user(phone, password, **extra_fields)
 
     def create_superuser(self, phone, password, **extra_fields):
+        """
+            superuser 생성 시
+            
+            어드민 페이지 접근 권한(is_staff) True 설정
+            슈퍼유저 권한(is_superuser) True 설정
+        """
+
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
 
@@ -47,20 +61,28 @@ class UserAccount(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
 
     objects = UserManager()
 
+    # 계정 상태 값 ('USE' - 사용, 'DELETED' - 탈퇴, 'DORMANT' - 휴면)
     STATUS = Choices('USE', 'DELETED', 'DORMANT')
 
     account_id = models.AutoField(primary_key=True)
 
     # 관리자 페이지 접근 권한
-    is_staff = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False, verbose_name="관리자 페이지 접근 권한")
 
-    email = models.EmailField(max_length=255, unique=True, null=True)
-    phone = models.CharField(max_length=11, unique=True)
+    email = models.EmailField(max_length=255, unique=True, null=True, verbose_name="이메일")
+    phone = models.CharField(max_length=11, unique=True, verbose_name="휴대폰 번호")
 
-    status = StatusField(max_length=30, default=STATUS.USE)
+    status = StatusField(max_length=30, default=STATUS.USE,
+                        verbose_name="계정 상태",
+                        help_text="USE - 사용 / DELETED - 탈퇴 / DORMANT - 휴면")
 
+    # 이메일 필드
     EMAIL_FIELD = 'email'
+
+    # 계정 ID로 사용할 필드
     USERNAME_FIELD = 'phone'
+    
+    # ID, PW 이외의 필수로 받아야 하는 필드
     # REQUIRED_FIELDS = ['email']
 
     class Meta:
@@ -73,98 +95,33 @@ class UserAccount(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
         return f'{self.phone} ({self.email})'
 
 
-class UserProfile(models.Model):
-    """
-        유저 프로필 정보
-    """
-
-    GENDER = Choices('MALE', 'FEMALE', 'OTHER')
-
-    profile_id = models.AutoField(primary_key=True)
-
-    account = models.OneToOneField(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        db_column="account_id"
-    )
-
-    cat_img_file = models.ForeignKey(File, null=True, on_delete=models.SET_NULL, db_column="cat_img_file_id", related_name="cat_img_file")
-    cat_sound_file = models.ForeignKey(File, null=True, on_delete=models.SET_NULL, db_column="cat_sound_file_id", related_name="cat_sound_file")
-    profile_img_file = models.ForeignKey(File, null=True, on_delete=models.SET_NULL, db_column="profile_img_file_id", related_name="profile_img_file")
-
-    name = models.CharField(max_length=30)
-    birth = models.DateField()
-    nickname = models.CharField(max_length=30)
-    gender = StatusField(max_length=30, choices_name='GENDER')
-
-    class Meta:
-        ordering = ['-profile_id']
-
-        verbose_name = '일반 유저 프로필 정보'
-        verbose_name_plural = '일반 유저 프로필 정보'
-
-    def __str__(self):
-        return f'{self.nickname} - {self.account}'
-
-
-# TODO: 사장님 프로필 정보 필드 기획 후 재구성 필요함.
-class OwnerUserProfile(models.Model):
-    """
-        사장님 프로필 정보
-    """
-
-    GENDER = Choices('MALE', 'FEMALE', 'OTHER')
-
-    profile_id = models.AutoField(primary_key=True)
-
-    account = models.OneToOneField(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        db_column="account_id"
-    )
-
-    cat_img_file = models.ForeignKey(File, null=True, on_delete=models.SET_NULL, db_column="cat_img_file_id", related_name="owner_cat_img_file")
-    cat_sound_file = models.ForeignKey(File, null=True, on_delete=models.SET_NULL, db_column="cat_sound_file_id", related_name="owner_cat_sound_file")
-    profile_img_file = models.ForeignKey(File, null=True, on_delete=models.SET_NULL, db_column="profile_img_file_id", related_name="owner_profile_img_file")
-    
-    name = models.CharField(max_length=30)
-    birth = models.DateField()
-    nickname = models.CharField(max_length=30)
-    gender = models.CharField(max_length=30, choices=GENDER)
-
-    class Meta:
-        ordering = ['-profile_id']
-
-        verbose_name = '사장님 프로필 정보'
-        verbose_name_plural = '사장님 프로필 정보'
-
-    def __str__(self):
-        return f'{self.nickname} - {self.account}'
-
-
 class UserCertification(models.Model):
     """
         유저 인증 정보
     """
 
+    # 이메일 인증 코드 길이
     MAX_EMAIL_CODE_LEN = 6
+
+    # SMS 인증 코드 길이
     MAX_SMS_CODE_LEN = 6
 
     account = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         primary_key=True,
         on_delete=models.CASCADE,
+        verbose_name="유저 계정 정보",
         db_column="account_id"
     )
 
-    is_sms_verified = models.BooleanField(default=False)
-    is_email_verified = models.BooleanField(default=False)
+    is_sms_verified = models.BooleanField(default=False, verbose_name="SMS 인증 여부")
+    is_email_verified = models.BooleanField(default=False, verbose_name="이메일 인증 여부")
     
-    sms_code = models.CharField(max_length=MAX_SMS_CODE_LEN, null=True)
-    email_code = models.CharField(max_length=MAX_EMAIL_CODE_LEN, null=True)
+    sms_code = models.CharField(max_length=MAX_SMS_CODE_LEN, null=True, verbose_name="SMS 인증 코드")
+    email_code = models.CharField(max_length=MAX_EMAIL_CODE_LEN, null=True, verbose_name="이메일 인증 코드")
     
-    sms_time_limit = models.DateTimeField(null=True)
-    email_time_limit = models.DateTimeField(null=True)
+    sms_time_limit = models.DateTimeField(null=True, verbose_name="SMS 인증 제한 일시")
+    email_time_limit = models.DateTimeField(null=True, verbose_name="이메일 인증 제한 일시")
 
     class Meta:
         ordering = ['-account']
