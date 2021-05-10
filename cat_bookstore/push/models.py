@@ -7,7 +7,7 @@ class UserPushInfo(models.Model):
         유저 푸시 정보 관련
     """
     
-    account_id = models.ForeignKey(UserAccount, on_delete=models.CASCADE, verbose_name="유저 계정 정보")
+    account = models.ForeignKey(UserAccount, on_delete=models.CASCADE, verbose_name="유저 계정 정보")
 
     registration_token = models.CharField(max_length=500, primary_key=True, verbose_name="파이어베이스 토큰")
     created = AutoCreatedField()
