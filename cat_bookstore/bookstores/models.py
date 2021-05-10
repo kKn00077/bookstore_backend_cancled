@@ -29,6 +29,9 @@ class Bookstore(TimeStampedModel):
 
     is_affiliate = models.BooleanField(default=False, verbose_name="가맹점 여부")
 
+    subscribed_users = models.ManyToManyField(UserAccount, through='SubscribeInfo', related_name="subscribed")
+    liked_users = models.ManyToManyField(UserAccount, through='UserLikedBookstore', related_name="liked")
+
     class Meta:
         ordering = ['-bookstore_id']
 
