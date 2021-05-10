@@ -17,7 +17,8 @@ class UserProfile(models.Model):
     account = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        db_column="account_id"
+        db_column="account_id",
+        related_name="profile"
     )
 
     cat_img_file = models.ForeignKey(File, null=True, 
@@ -64,7 +65,8 @@ class OwnerUserProfile(models.Model):
     account = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        db_column="account_id"
+        db_column="account_id",
+        related_name="owner_profile"
     )
 
     cat_img_file = models.ForeignKey(File, null=True, 

@@ -111,7 +111,8 @@ class UserCertification(models.Model):
         primary_key=True,
         on_delete=models.CASCADE,
         verbose_name="유저 계정 정보",
-        db_column="account_id"
+        db_column="account_id",
+        related_name="certification"
     )
 
     is_sms_verified = models.BooleanField(default=False, verbose_name="SMS 인증 여부")
