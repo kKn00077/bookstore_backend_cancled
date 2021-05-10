@@ -1,3 +1,7 @@
 from django.contrib import admin
+from .models import Bookstore, UserLikedBookstore, SubscribeInfo
 
-# Register your models here.
+
+admin.site.register(Bookstore)
+admin.site.register(UserLikedBookstore)
+admin.site.register(SubscribeInfo)
