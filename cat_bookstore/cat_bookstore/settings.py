@@ -11,15 +11,16 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # 파일 저장 루트
-MEDIA_ROOT = '/files/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # 파일 접근 URL 경로
-MEDIA_URL = '/file/'
+MEDIA_URL = '/media/'
 
 # 파일 업로드 사이즈 최대값
 FILE_UPLOAD_MAX_SIZE = '2621440'
@@ -36,7 +37,7 @@ SECRET_KEY = 'django-insecure-8_=2(-8s%+ixzgb4-p+sw_dv@!(*)7==a3!kih+a^+y$$akw&3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # 사용할 유저 모델 지정
 AUTH_USER_MODEL = 'accounts.UserAccount'
