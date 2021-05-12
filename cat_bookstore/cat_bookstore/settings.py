@@ -75,17 +75,28 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'cat_bookstore.urls'
 
 REST_FRAMEWORK = {
+    # pagination 처리 기본 클래스 설정
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    
+    # pagination page size 기본 설정
     'PAGE_SIZE': 10,
+
+    # 기본 권한 설정 (IsAuthenticated - 인증된 사용자만 접근 가능)
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
+
+    # 로그인 시 기본 인증 처리 클래스 설정 (로그인 토큰 사용)
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ],
+
+    # 기본 출력 포맷 (response)
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
     ],
+
+    # 기본 입력 포맷 (request)
     'DEFAULT_PARSER_CLASSES': [
         'rest_framework.parsers.JSONParser',
         'rest_framework.parsers.FormParser',
