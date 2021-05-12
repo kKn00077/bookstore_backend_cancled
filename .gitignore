@@ -1,7 +1,13 @@
 .vscode
 environment
+.env
 
 ### Django ###
 cat_bookstore/db.sqlite3
 cat_bookstore/db.sqlite3-journal
 cat_bookstore/media
+
+### Python ###
+__pycache__/
+*.pyc
+venv/
