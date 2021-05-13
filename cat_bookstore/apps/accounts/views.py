@@ -25,6 +25,8 @@ class UserAccountViewSet(viewsets.GenericViewSet):
     def register(self, request):
         """
             회원가입
+
+            TODO: 추후 기획에 맞춰 커스텀
         """
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -39,6 +41,8 @@ class UserAccountViewSet(viewsets.GenericViewSet):
     def login(self, request):
         """
             로그인
+
+            TODO: 추후 기획에 맞춰 커스텀
         """
         serializer = UserAccountLoginSerializer(data=request.data)
         serializer.is_valid()
