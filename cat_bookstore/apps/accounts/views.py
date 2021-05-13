@@ -29,8 +29,10 @@ class UserAccountViewSet(viewsets.GenericViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-
-        return Response(status=status.HTTP_201_CREATED)
+        
+        token_result = UserAccountLoginSerializer.login(request.data)
+        
+        return Response(token_result, status=status.HTTP_201_CREATED)
 
 
     @action(methods=['POST'], detail=False)
