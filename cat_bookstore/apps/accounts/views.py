@@ -4,7 +4,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.generics import get_object_or_404
 from .models import UserAccount
-from .serializers import UserAccountSerializer
+from .serializers import UserAccountSerializer, UserAccountLoginSerializer
 
 
 class UserAccountViewSet(viewsets.GenericViewSet):
@@ -31,3 +31,18 @@ class UserAccountViewSet(viewsets.GenericViewSet):
         serializer.save()
 
         return Response(status=status.HTTP_201_CREATED)
+
+
+    @action(methods=['POST'], detail=False)
+    def login(self, request):
+        """
+            로그인
+        """
+        serializer = UserAccountLoginSerializer(data=request.data)
+        serializer.is_valid()
+        token_result = serializer.login(serializer.data)
+
+        if token_result is None:
+            return Response({"message": "fail"}, status=status.HTTP_401_UNAUTHORIZED)
+
+        return Response(token_result, status=status.HTTP_200_OK)
