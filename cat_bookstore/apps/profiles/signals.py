@@ -1,7 +1,9 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.contrib.auth import get_user_model
+from .models import UserProfile
 
-from apps.accounts.models import UserAccount
+UserAccount = get_user_model()
 
 
 @receiver(post_save, sender=UserAccount)
@@ -20,7 +22,7 @@ def save_user_profile(sender, instance, **kwargs):
     try:
         # 유저 프로필을 가져온다.
         profile = instance.profile
-    except Customer.DoesNotExist:
+    except UserProfile.DoesNotExist:
         # 못가져올 겨우 사장님 프로필을 가져온다.
         profile = instance.owner_profile
     finally:
