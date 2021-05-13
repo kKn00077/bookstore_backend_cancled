@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from django.contrib.auth import get_user_model, login
+from django.contrib.auth import get_user_model
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import update_last_login
