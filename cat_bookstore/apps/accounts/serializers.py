@@ -63,10 +63,6 @@ class UserAccountLoginSerializer(serializers.ModelSerializer):
         phone = attrs.get('phone', None)
         password = attrs.get('password', None)
 
-        print(email)
-        print(phone)
-        print(password)
-
         if email is None:
             if phone is None:
                 raise serializers.ValidationError('phone is None')
