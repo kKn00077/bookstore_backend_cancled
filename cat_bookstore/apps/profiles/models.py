@@ -20,15 +20,6 @@ class UserProfile(models.Model):
         related_name="profile",
     )
 
-    cat_img_file = models.ForeignKey(
-        "files.File",
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        db_column="cat_img_file_id",
-        related_name="cat_img_file",
-        verbose_name="고양이 이미지 파일",
-    )
     cat_sound_file = models.ForeignKey(
         "files.File",
         null=True,
@@ -80,15 +71,6 @@ class OwnerUserProfile(models.Model):
         related_name="owner_profile",
     )
 
-    cat_img_file = models.ForeignKey(
-        "files.File",
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        db_column="cat_img_file_id",
-        related_name="owner_cat_img_file",
-        verbose_name="고양이 이미지 파일",
-    )
     cat_sound_file = models.ForeignKey(
         "files.File",
         null=True,
