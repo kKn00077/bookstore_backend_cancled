@@ -29,11 +29,15 @@ class Bookstore(TimeStampedModel):
     address_detail = models.CharField(max_length=100, verbose_name="서점 상세 주소")
     introduction = models.TextField(blank=True, verbose_name="서점 소개")
 
+    start_time = models.TimeField(verbose_name="영업 시작 시간")
+    end_time = models.TimeField(verbose_name="영업 끝나는 시간")
+
     is_affiliate = models.BooleanField(default=False, verbose_name="가맹점 여부")
 
     subscribed_users = models.ManyToManyField(
         "accounts.UserAccount", through="SubscribeInfo", related_name="subscribed"
     )
+    
     liked_users = models.ManyToManyField(
         "accounts.UserAccount", through="UserLikedBookstore", related_name="liked"
     )
@@ -47,6 +51,35 @@ class Bookstore(TimeStampedModel):
     def __str__(self):
         return f"{self.name} - {self.address}"
 
+
+class BookstoreCategory(models.Model):
+    """
+    서점 카테고리
+    (심리학 전문 서점인지, 고전 문학 전문 서점인지 등등..)
+
+    서점의 카테고리는 여러개일 수 있음
+    """
+
+    bookstores_category_id = models.AutoField(primary_key=True)
+
+    bookstore = models.ForeignKey(
+        "Bookstore",
+        on_delete=models.CASCADE,
+        verbose_name="서점",
+        db_column="bookstore_id",
+    )
+
+    category_type = models.CharField(max_length=30, verbose_name="카테고리명")
+
+
+    class Meta:
+        ordering = ["-bookstores_category_id"]
+
+        verbose_name = "서점 카테고리"
+        verbose_name_plural = "서점 카테고리"
+
+    def __str__(self):
+        return f"{self.bookstore} - {self.category_type}"
 
 class SubscribeInfo(models.Model):
     """
