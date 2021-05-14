@@ -2,7 +2,9 @@ from django.db import models
 from model_utils.fields import StatusField, AutoCreatedField
 from model_utils.choices import Choices
 from model_utils.models import TimeStampedModel
+from django.contrib.auth import get_user_model
 
+UserAccount = get_user_model()
 
 class Meeting(TimeStampedModel):
     """
@@ -16,7 +18,7 @@ class Meeting(TimeStampedModel):
     meeting_id = models.AutoField(primary_key=True)
 
     account = models.ForeignKey(
-        "accounts.UserAccount",
+        UserAccount,
         on_delete=models.CASCADE,
         verbose_name="사장님 계정 정보",
         db_column="account_id",
@@ -56,7 +58,7 @@ class Meeting(TimeStampedModel):
     )
 
     apply_users = models.ManyToManyField(
-        "accounts.UserAccount", through="MeetingAttendApply", related_name="apply_users"
+        UserAccount, through="MeetingAttendApply", related_name="meetting"
     )
 
     class Meta:
@@ -85,7 +87,7 @@ class MeetingAttendApply(models.Model):
     )
 
     account = models.ForeignKey(
-        "accounts.UserAccount",
+        UserAccount,
         on_delete=models.CASCADE,
         verbose_name="신청한 유저의 계정 정보",
         db_column="account_id",

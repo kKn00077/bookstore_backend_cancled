@@ -1,6 +1,8 @@
 from django.db import models
 from model_utils.fields import AutoCreatedField
+from django.contrib.auth import get_user_model
 
+UserAccount = get_user_model()
 
 class UserPushInfo(models.Model):
     """
@@ -8,7 +10,7 @@ class UserPushInfo(models.Model):
     """
 
     account = models.ForeignKey(
-        "accounts.UserAccount", on_delete=models.CASCADE, verbose_name="유저 계정 정보"
+        UserAccount, on_delete=models.CASCADE, verbose_name="유저 계정 정보"
     )
 
     registration_token = models.CharField(

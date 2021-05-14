@@ -1,7 +1,9 @@
+from apps.books.models import BookStock, Books
 from django.db import models
 from model_utils.models import TimeStampedModel
+from django.contrib.auth import get_user_model
 
-
+UserAccount = get_user_model()
 class Bookstore(TimeStampedModel):
     """
     서점 정보 관련
@@ -9,7 +11,7 @@ class Bookstore(TimeStampedModel):
 
     bookstore_id = models.AutoField(primary_key=True)
     account = models.ForeignKey(
-        "accounts.UserAccount",
+        UserAccount,
         null=True,
         on_delete=models.SET_NULL,
         verbose_name="사장님 계정 정보",
@@ -34,12 +36,19 @@ class Bookstore(TimeStampedModel):
 
     is_affiliate = models.BooleanField(default=False, verbose_name="가맹점 여부")
 
+    # 서점 구독 유저
     subscribed_users = models.ManyToManyField(
-        "accounts.UserAccount", through="SubscribeInfo", related_name="subscribed"
+        UserAccount, through="SubscribeInfo", related_name="subscribed"
     )
     
+    # 서점 좋아요
     liked_users = models.ManyToManyField(
-        "accounts.UserAccount", through="UserLikedBookstore", related_name="liked"
+        UserAccount, through="UserLikedBookstore", related_name="liked"
+    )
+
+    # 서점 책 재고
+    book_stock = models.ManyToManyField(
+        Books, through=BookStock, related_name="bookstore"
     )
 
     class Meta:
@@ -63,7 +72,7 @@ class BookstoreCategory(models.Model):
     bookstores_category_id = models.AutoField(primary_key=True)
 
     bookstore = models.ForeignKey(
-        "Bookstore",
+        Bookstore,
         on_delete=models.CASCADE,
         verbose_name="서점",
         db_column="bookstore_id",
@@ -89,7 +98,7 @@ class SubscribeInfo(models.Model):
     subscribe_id = models.AutoField(primary_key=True)
 
     account = models.ForeignKey(
-        "accounts.UserAccount",
+        UserAccount,
         on_delete=models.CASCADE,
         verbose_name="사용자 계정 정보",
         db_column="account_id",
@@ -124,7 +133,7 @@ class UserLikedBookstore(models.Model):
     # 좋아요를 누른 사용자가 탈퇴해도 서점의 좋아요는 그대로여야 하기 때문에
     # null값을 허용함
     account = models.ForeignKey(
-        "accounts.UserAccount",
+        UserAccount,
         null=True,
         on_delete=models.SET_NULL,
         verbose_name="사용자 계정 정보",
