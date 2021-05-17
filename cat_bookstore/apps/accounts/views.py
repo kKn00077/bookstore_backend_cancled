@@ -28,9 +28,11 @@ class UserAccountViewSet(viewsets.GenericViewSet):
 
             TODO: 추후 기획에 맞춰 커스텀
         """
+        is_owner = request.data.get('is_owner', False)
+
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        serializer.save(is_owner=is_owner)
         
         token_result = UserAccountLoginSerializer.login(request.data)
         
