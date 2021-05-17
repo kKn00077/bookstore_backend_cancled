@@ -5,6 +5,7 @@ from .models import UserAccount, UserCertification
 
 
 @receiver(post_save, sender=UserAccount)
-def save_user_certification(sender, instance, **kwargs):
-    certification = UserCertification(account=instance)
-    certification.save()
+def save_user_certification(sender, instance, created, **kwargs):
+    if created:
+        certification = UserCertification(account=instance)
+        certification.save()

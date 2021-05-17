@@ -42,7 +42,7 @@ class UserProfile(models.Model):
     name = models.CharField(null=True, blank=True, max_length=30, verbose_name="사용자 명")
     birth = models.DateField(null=True, blank=True, verbose_name="사용자 생년월일")
     nickname = models.CharField(null=True, blank=True, max_length=30, verbose_name="사용자 닉네임")
-    gender = StatusField(null=True, blank=True, max_length=30, choices_name="GENDER", verbose_name="사용자 성별")
+    gender = StatusField(null=True, blank=True, max_length=30, default=None,choices_name="GENDER", verbose_name="사용자 성별")
 
     class Meta:
         ordering = ["-profile_id"]
@@ -54,7 +54,7 @@ class UserProfile(models.Model):
         return f"{self.nickname} - {self.account}"
 
 
-# TODO: 사장님 프로필 정보 필드 기획 후 재구성 필요함.
+#TODO: 사장님 프로필 정보 필드 기획 후 재구성 필요함.
 class OwnerUserProfile(models.Model):
     """
     사장님 프로필 정보
@@ -93,7 +93,7 @@ class OwnerUserProfile(models.Model):
     name = models.CharField(null=True, blank=True, max_length=30, verbose_name="사용자 명")
     birth = models.DateField(null=True, blank=True, verbose_name="사용자 생년월일")
     nickname = models.CharField(null=True, blank=True, max_length=30, verbose_name="사용자 닉네임")
-    gender = StatusField(null=True, blank=True, max_length=30, choices_name="GENDER", verbose_name="사용자 성별")
+    gender = StatusField(null=True, blank=True, max_length=30, default=None,choices_name="GENDER", verbose_name="사용자 성별")
 
     class Meta:
         ordering = ["-profile_id"]

@@ -5,10 +5,10 @@ UserAccount = get_user_model()
 
 class AuthBackend(BaseBackend):
     def get_user(self, user_id):
-       try:
-          return UserAccount.objects.get(pk=user_id)
-       except UserAccount.DoesNotExist:
-          return None
+        try:
+            return UserAccount.objects.get(pk=user_id)
+        except UserAccount.DoesNotExist:
+            return None
 
 
     def authenticate(self, request, email=None, phone=None, password=None):
