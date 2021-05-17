@@ -54,7 +54,7 @@ class UserProfile(models.Model):
         return f"{self.nickname} - {self.account}"
 
 
-# TODO: 사장님 프로필 정보 필드 기획 후 재구성 필요함.
+#TODO: 사장님 프로필 정보 필드 기획 후 재구성 필요함.
 class OwnerUserProfile(models.Model):
     """
     사장님 프로필 정보

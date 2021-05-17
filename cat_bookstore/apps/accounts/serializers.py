@@ -7,7 +7,7 @@ from django.contrib.auth.hashers import make_password
 from apps.profiles.models import UserProfile, OwnerUserProfile
 
 # JWT 사용을 위한 설정
-JWT_PAYLOAD_HANDLER = api_settings.JWT_PAYLOAD_HANDLER 
+JWT_PAYLOAD_HANDLER = api_settings.JWT_PAYLOAD_HANDLER
 JWT_ENCODE_HANDLER = api_settings.JWT_ENCODE_HANDLER
 
 UserAccount = get_user_model()
@@ -120,7 +120,6 @@ class UserAccountLoginSerializer(serializers.ModelSerializer):
             update_last_login(None, account)
         except UserAccount.DoesNotExist: 
             raise serializers.ValidationError(
-                'User with given login_id(email or phone) and password does not exist') 
-        
-        return { 'token': jwt_token }
+                'User with given login_id(email or phone) and password does not exist')
 
+        return { 'token': jwt_token }
