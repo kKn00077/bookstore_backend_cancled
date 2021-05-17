@@ -1,3 +1,11 @@
-from django.urls import path
+from django.urls import path, include
 
-urlpatterns = []
+from rest_framework import routers
+from apps.meetings.views import MeetingViewSet
+
+router = routers.SimpleRouter()
+router.register(r"meetings", MeetingViewSet)
+
+urlpatterns = [
+    path("", include(router.urls))
+]
