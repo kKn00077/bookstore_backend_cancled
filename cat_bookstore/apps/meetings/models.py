@@ -58,7 +58,7 @@ class Meeting(TimeStampedModel):
     )
 
     apply_users = models.ManyToManyField(
-        UserAccount, through="MeetingAttendApply", related_name="meetting"
+        UserAccount, through="MeetingAttendApply", related_name="apply_meeting"
     )
 
     class Meta:
