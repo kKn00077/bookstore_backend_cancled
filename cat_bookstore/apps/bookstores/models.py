@@ -1,4 +1,5 @@
-from apps.books.models import BookStock, Books
+from apps.books.models import Books
+from apps.products.models import BookStock
 from django.db import models
 from model_utils.models import TimeStampedModel
 from django.contrib.auth import get_user_model

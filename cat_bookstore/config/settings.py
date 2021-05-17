@@ -54,6 +54,7 @@ PROJECT_APPS = [
     "apps.files",
     "apps.meetings",
     "apps.notices",
+    "apps.products",
     "apps.profiles",
     "apps.push",
 ]
