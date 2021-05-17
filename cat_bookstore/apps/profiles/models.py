@@ -39,10 +39,10 @@ class UserProfile(models.Model):
         verbose_name="프로필 이미지 파일",
     )
 
-    name = models.CharField(max_length=30, verbose_name="사용자 명")
-    birth = models.DateField(verbose_name="사용자 생년월일")
-    nickname = models.CharField(max_length=30, verbose_name="사용자 닉네임")
-    gender = StatusField(max_length=30, choices_name="GENDER", verbose_name="사용자 성별")
+    name = models.CharField(null=True, blank=True, max_length=30, verbose_name="사용자 명")
+    birth = models.DateField(null=True, blank=True, verbose_name="사용자 생년월일")
+    nickname = models.CharField(null=True, blank=True, max_length=30, verbose_name="사용자 닉네임")
+    gender = StatusField(null=True, blank=True, max_length=30, choices_name="GENDER", verbose_name="사용자 성별")
 
     class Meta:
         ordering = ["-profile_id"]
@@ -90,10 +90,10 @@ class OwnerUserProfile(models.Model):
         verbose_name="프로필 이미지 파일",
     )
 
-    name = models.CharField(max_length=30, verbose_name="사용자 명")
-    birth = models.DateField(verbose_name="사용자 생년월일")
-    nickname = models.CharField(max_length=30, verbose_name="사용자 닉네임")
-    gender = StatusField(max_length=30, choices_name="GENDER", verbose_name="사용자 성별")
+    name = models.CharField(null=True, blank=True, max_length=30, verbose_name="사용자 명")
+    birth = models.DateField(null=True, blank=True, verbose_name="사용자 생년월일")
+    nickname = models.CharField(null=True, blank=True, max_length=30, verbose_name="사용자 닉네임")
+    gender = StatusField(null=True, blank=True, max_length=30, choices_name="GENDER", verbose_name="사용자 성별")
 
     class Meta:
         ordering = ["-profile_id"]
