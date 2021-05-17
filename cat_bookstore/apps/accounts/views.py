@@ -21,7 +21,7 @@ class UserAccountViewSet(viewsets.GenericViewSet):
     permission_classes = [AllowAny]
 
     @action(methods=['POST'], detail=False)
-    def register(self, request):
+    def sign_up(self, request):
         """
             회원가입
 
