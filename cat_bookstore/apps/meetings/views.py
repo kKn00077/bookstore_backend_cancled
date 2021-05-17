@@ -24,7 +24,7 @@ class MeetingViewSet(viewsets.GenericViewSet):
     @action(methods=['POST'], detail=False)
     def register(self, request):
         """
-            미팅 등록
+            TODO:미팅 등록
         """
         
         return Response(status=status.HTTP_201_CREATED)
