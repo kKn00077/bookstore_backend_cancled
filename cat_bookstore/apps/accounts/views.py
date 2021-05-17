@@ -1,8 +1,7 @@
-from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework import status, mixins, viewsets, serializers
+from rest_framework.permissions import AllowAny
+from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.generics import get_object_or_404
 from .models import UserAccount
 from .serializers import UserAccountSerializer, UserAccountLoginSerializer
 
@@ -22,7 +21,7 @@ class UserAccountViewSet(viewsets.GenericViewSet):
     permission_classes = [AllowAny]
 
     @action(methods=['POST'], detail=False)
-    def register(self, request):
+    def sign_up(self, request):
         """
             회원가입
 
