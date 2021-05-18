@@ -39,7 +39,7 @@ class File(TimeStampedModel):
                                     verbose_name="파일 그룹",
                                     db_column="file_group_id")
     
-    # TODO: upload 경로는 추후에 필요 시에 변경
+    #TODO: upload 경로는 추후에 필요 시에 변경
     path = models.FileField(upload_to=upload_to_file, max_length=settings.URL_MAX_LEN, verbose_name="저장된 파일 경로 (파일 업로드)")
     
     name = models.CharField(max_length=settings.URL_MAX_LEN, verbose_name="저장된 파일명", editable=False)

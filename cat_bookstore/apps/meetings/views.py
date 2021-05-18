@@ -7,9 +7,9 @@ from .serializers import MeetingSerializer
 from .models import Meeting
 
 
-class MeetingViewSet(viewsets.GenericViewSet):
+class MeetingViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
     """
-        계정 정보를 관리하는 viewset
+        미팅 관련 관리하는 viewset
     """
 
     # 기본 쿼리셋
@@ -24,7 +24,16 @@ class MeetingViewSet(viewsets.GenericViewSet):
     @action(methods=['POST'], detail=False)
     def register(self, request):
         """
-            TODO:미팅 등록
+            미팅 등록
+
+            TODO: file 등록
         """
+        account = request.user
+        bookstore = account.bookstore_set.first()
+
+        request.data['account'] = account.account_id
+        request.data['bookstore'] = bookstore.bookstore_id
+
+        response = self.create(request)
         
-        return Response(status=status.HTTP_201_CREATED)
+        return response
