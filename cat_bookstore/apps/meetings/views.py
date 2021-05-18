@@ -1,3 +1,4 @@
+from apps.accounts.permissions import IsOwnerAuthenticated
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status, mixins, viewsets
 from rest_framework.decorators import action
@@ -19,7 +20,7 @@ class MeetingViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
     serializer_class = MeetingSerializer
 
     # 해당 viewset에서 사용되는 기본 권한
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsOwnerAuthenticated]
 
     @action(methods=['POST'], detail=False)
     def register(self, request):
