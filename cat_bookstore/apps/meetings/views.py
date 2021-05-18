@@ -8,9 +8,9 @@ from .serializers import MeetingSerializer
 from .models import Meeting
 
 
-class MeetingViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
+class MeetingCRMViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
     """
-        미팅 관련 관리하는 viewset
+        CRM 미팅 관련 관리하는 viewset
     """
 
     # 기본 쿼리셋
@@ -36,5 +36,32 @@ class MeetingViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
         request.data['bookstore'] = bookstore.bookstore_id
 
         response = self.create(request)
+        
+        return response
+
+class MeetingCommonViewset(viewsets.GenericViewSet, mixins.ListModelMixin):
+    """
+        앱/CRM 공통 접근 가능한 모임 관련 viewset
+    """
+
+    # 기본 쿼리셋
+    queryset = Meeting.objects.all()
+
+    # 사용되는 serializer 클래스
+    serializer_class = MeetingSerializer
+
+    # 해당 viewset에서 사용되는 기본 권한
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return super().get_queryset()
+
+    @action(methods=['GET'], detail=False)
+    def get_meeting_list(self, request):
+        """
+            TODO: 미팅 리스트 호출
+        """
+        
+        response = self.list(request)
         
         return response
