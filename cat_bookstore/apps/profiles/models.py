@@ -16,7 +16,6 @@ class UserProfile(models.Model):
     account = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        db_column="account_id",
         related_name="profile",
     )
 
@@ -39,10 +38,10 @@ class UserProfile(models.Model):
         verbose_name="프로필 이미지 파일",
     )
 
-    name = models.CharField(null=True, blank=True, max_length=30, verbose_name="사용자 명")
-    birth = models.DateField(null=True, blank=True, verbose_name="사용자 생년월일")
-    nickname = models.CharField(null=True, blank=True, max_length=30, verbose_name="사용자 닉네임")
-    gender = StatusField(null=True, blank=True, max_length=30, default=None,choices_name="GENDER", verbose_name="사용자 성별")
+    name = models.CharField("사용자 명", null=True, blank=True, max_length=30)
+    birth = models.DateField("사용자 생년월일", null=True, blank=True)
+    nickname = models.CharField("사용자 닉네임", null=True, blank=True, max_length=30)
+    gender = StatusField(verbose_name="사용자 성별", null=True, blank=True, max_length=30, default=None, choices_name="GENDER")
 
     class Meta:
         ordering = ["-profile_id"]
@@ -67,7 +66,6 @@ class OwnerUserProfile(models.Model):
     account = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        db_column="account_id",
         related_name="owner_profile",
     )
 
@@ -90,10 +88,10 @@ class OwnerUserProfile(models.Model):
         verbose_name="프로필 이미지 파일",
     )
 
-    name = models.CharField(null=True, blank=True, max_length=30, verbose_name="사용자 명")
-    birth = models.DateField(null=True, blank=True, verbose_name="사용자 생년월일")
-    nickname = models.CharField(null=True, blank=True, max_length=30, verbose_name="사용자 닉네임")
-    gender = StatusField(null=True, blank=True, max_length=30, default=None,choices_name="GENDER", verbose_name="사용자 성별")
+    name = models.CharField("사용자 명", null=True, blank=True, max_length=30)
+    birth = models.DateField("사용자 생년월일", null=True, blank=True)
+    nickname = models.CharField("사용자 닉네임", null=True, blank=True, max_length=30)
+    gender = StatusField(verbose_name="사용자 성별", null=True, blank=True, max_length=30, default=None, choices_name="GENDER")
 
     class Meta:
         ordering = ["-profile_id"]

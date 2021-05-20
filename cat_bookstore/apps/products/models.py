@@ -11,19 +11,17 @@ class BookStock(models.Model):
 
     bookstore = models.ForeignKey(
         "bookstores.Bookstore",
-        on_delete=models.CASCADE,
         verbose_name="서점",
-        db_column="bookstore_id",
+        on_delete=models.CASCADE,
     )
     book = models.ForeignKey(
         "books.Books",
-        on_delete=models.CASCADE,
         verbose_name="책",
-        db_column="book_id",
+        on_delete=models.CASCADE,
     )
 
-    quantity = models.IntegerField(default=0, verbose_name="수량")
-    is_recommend = models.BooleanField(default=False, verbose_name="추천도서 여부")
+    quantity = models.IntegerField("수량", default=0)
+    is_recommend = models.BooleanField("추천도서 여부", default=False)
 
     class Meta:
         ordering = ['-stock_id']
@@ -40,15 +38,14 @@ class Product(TimeStampedModel):
 
     bookstore = models.ForeignKey(
         "bookstores.Bookstore",
-        on_delete=models.CASCADE,
         verbose_name="서점",
-        db_column="bookstore_id",
+        on_delete=models.CASCADE,
     )
 
-    name = models.CharField(max_length=100, verbose_name="상품 명")
-    contents = models.TextField(verbose_name="상품 설명")
-    price = models.IntegerField(verbose_name="상품 가격")
-    product_type = models.CharField(max_length=30, verbose_name="상품 타입")
+    name = models.CharField("상품 명", max_length=100)
+    contents = models.TextField("상품 설명")
+    price = models.IntegerField("상품 가격")
+    product_type = models.CharField("상품 타입", max_length=30)
 
     class Meta:
         ordering = ['-product_id']
