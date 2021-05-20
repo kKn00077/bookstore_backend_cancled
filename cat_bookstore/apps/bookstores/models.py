@@ -11,12 +11,26 @@ class Bookstore(TimeStampedModel):
     """
 
     bookstore_id = models.AutoField(primary_key=True)
+
+    """
+    #서점과 사장님의 관계는 1:N이 맞지만 일단 계정당 1개의 서점을 배치함(1:1)
+    #수요가 늘 경우 1:N으로 변경
+    #계정이 삭제돼도 서점정보는 남겨야 하므로 null=True 설정
     account = models.ForeignKey(
         UserAccount,
         null=True,
         on_delete=models.SET_NULL,
         verbose_name="사장님 계정 정보",
         db_column="account_id",
+    )
+    """
+    account = models.OneToOneField(
+        UserAccount,
+        null=True,
+        on_delete=models.SET_NULL,
+        verbose_name="유저 계정 정보",
+        db_column="account_id",
+        related_name="bookstore"
     )
 
     img_file_group = models.ForeignKey(

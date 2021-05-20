@@ -30,7 +30,7 @@ class MeetingCRMViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
             TODO: file 등록
         """
         account = request.user
-        bookstore = account.bookstore_set.first()
+        bookstore = account.bookstore
 
         request.data['account'] = account.account_id
         request.data['bookstore'] = bookstore.bookstore_id
