@@ -18,7 +18,7 @@ def upload_to_file(instance, filename):
     instance.name = new_filename
     instance.origin_name = filename
     instance.file_type = extension
-    instance.size = instance.path.size
+    instance.size = instance.file.size
 
     # 결합 후 return
     return '/'.join([
