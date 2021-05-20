@@ -10,11 +10,11 @@ class UserPushInfo(models.Model):
     """
 
     account = models.ForeignKey(
-        UserAccount, on_delete=models.CASCADE, verbose_name="유저 계정 정보"
+        UserAccount, verbose_name="유저 계정 정보", on_delete=models.CASCADE
     )
 
     registration_token = models.CharField(
-        max_length=500, primary_key=True, verbose_name="파이어베이스 토큰"
+        max_length=500, verbose_name="파이어베이스 토큰", primary_key=True
     )
     created = AutoCreatedField()
 

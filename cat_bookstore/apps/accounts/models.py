@@ -67,13 +67,13 @@ class UserAccount(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
     account_id = models.AutoField(primary_key=True)
 
     # 관리자 페이지 접근 권한
-    is_staff = models.BooleanField(default=False, verbose_name="관리자 페이지 접근 권한")
+    is_staff = models.BooleanField("관리자 페이지 접근 권한", default=False)
 
-    email = models.EmailField(max_length=255, unique=True, null=True, verbose_name="이메일")
-    phone = models.CharField(max_length=11, unique=True, verbose_name="휴대폰 번호")
+    email = models.EmailField("이메일", max_length=255, unique=True, null=True)
+    phone = models.CharField("휴대폰 번호", max_length=11, unique=True)
 
-    status = StatusField(max_length=30, default=STATUS.USE,
-                        verbose_name="계정 상태",
+    status = StatusField(verbose_name="계정 상태", 
+                        max_length=30, default=STATUS.USE,
                         help_text="USE - 사용 / DELETED - 탈퇴 / DORMANT - 휴면")
 
     # 이메일 필드
@@ -108,21 +108,20 @@ class UserCertification(models.Model):
 
     account = models.OneToOneField(
         settings.AUTH_USER_MODEL,
+        verbose_name="유저 계정 정보",
         primary_key=True,
         on_delete=models.CASCADE,
-        verbose_name="유저 계정 정보",
-        db_column="account_id",
         related_name="certification"
     )
 
-    is_sms_verified = models.BooleanField(default=False, verbose_name="SMS 인증 여부")
-    is_email_verified = models.BooleanField(default=False, verbose_name="이메일 인증 여부")
+    is_sms_verified = models.BooleanField("SMS 인증 여부", default=False)
+    is_email_verified = models.BooleanField("이메일 인증 여부", default=False)
     
-    sms_code = models.CharField(max_length=MAX_SMS_CODE_LEN, null=True, verbose_name="SMS 인증 코드")
-    email_code = models.CharField(max_length=MAX_EMAIL_CODE_LEN, null=True, verbose_name="이메일 인증 코드")
+    sms_code = models.CharField("SMS 인증 코드", max_length=MAX_SMS_CODE_LEN, null=True)
+    email_code = models.CharField("이메일 인증 코드", max_length=MAX_EMAIL_CODE_LEN, null=True)
     
-    sms_time_limit = models.DateTimeField(null=True, verbose_name="SMS 인증 제한 일시")
-    email_time_limit = models.DateTimeField(null=True, verbose_name="이메일 인증 제한 일시")
+    sms_time_limit = models.DateTimeField("SMS 인증 제한 일시", null=True)
+    email_time_limit = models.DateTimeField("이메일 인증 제한 일시", null=True)
 
     class Meta:
         ordering = ['-account']

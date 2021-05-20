@@ -34,22 +34,22 @@ class File(TimeStampedModel):
 
     file_id = models.AutoField(primary_key=True)
 
-    file_group = models.ForeignKey(FileGroup, null=True, blank=True,
-                                    on_delete=models.SET_NULL,
+    file_group = models.ForeignKey(FileGroup, 
                                     verbose_name="파일 그룹",
-                                    db_column="file_group_id")
+                                    null=True, blank=True,
+                                    on_delete=models.SET_NULL)
     
     #TODO: upload 경로는 추후에 필요 시에 변경
-    file = models.FileField(upload_to=upload_to_file, max_length=settings.URL_MAX_LEN, verbose_name="저장된 파일 경로 (파일 업로드)")
+    file = models.FileField("저장된 파일 경로 (파일 업로드)", upload_to=upload_to_file, max_length=settings.URL_MAX_LEN)
     
-    name = models.CharField(max_length=settings.URL_MAX_LEN, verbose_name="저장된 파일명", editable=False)
-    origin_name = models.CharField(max_length=settings.URL_MAX_LEN, verbose_name="원본 파일명", editable=False)
+    name = models.CharField("저장된 파일명", max_length=settings.URL_MAX_LEN, editable=False)
+    origin_name = models.CharField("원본 파일명", max_length=settings.URL_MAX_LEN, editable=False)
     
-    file_type = models.CharField(max_length=30, verbose_name="파일 확장자", editable=False)
+    file_type = models.CharField("파일 확장자", max_length=30, editable=False)
     
-    size = models.IntegerField(verbose_name="파일 크기", editable=False)
+    size = models.IntegerField("파일 크기", editable=False)
     
-    order = models.IntegerField(default=1, null=True, verbose_name="파일 정렬 순", help_text="묶음 파일일 경우 적용됩니다.")
+    order = models.IntegerField("파일 정렬 순", default=1, null=True, help_text="묶음 파일일 경우 적용됩니다.")
 
     class Meta:
         ordering = ['-created']

@@ -8,8 +8,8 @@ class AppNotice(TimeStampedModel):
 
     notice_id = models.AutoField(primary_key=True)
 
-    title = models.CharField(max_length=300, verbose_name="공지 제목")
-    contents = models.TextField(verbose_name="공지 내용")
+    title = models.CharField("공지 제목", max_length=300)
+    contents = models.TextField("공지 내용")
 
     class Meta:
         ordering = ['-notice_id']
