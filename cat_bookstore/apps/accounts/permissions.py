@@ -7,6 +7,9 @@ class IsOwnerAuthenticated(permissions.BasePermission):
     def has_permission(self, request, view):
         account=request.user
 
+        if not account.is_authenticated:
+            return False
+
         try:
             account.owner_profile
             return True
