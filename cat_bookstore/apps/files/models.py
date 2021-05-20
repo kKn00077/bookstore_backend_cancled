@@ -37,6 +37,7 @@ class File(TimeStampedModel):
     file_group = models.ForeignKey(FileGroup, 
                                     verbose_name="파일 그룹",
                                     null=True, blank=True,
+                                    related_name="files",
                                     on_delete=models.SET_NULL)
     
     #TODO: upload 경로는 추후에 필요 시에 변경
