@@ -30,6 +30,11 @@ ALLOWED_HOSTS = ["*"]
 # 사용할 유저 모델 지정
 AUTH_USER_MODEL = "accounts.UserAccount"
 
+# 인증 커스텀 백엔드
+AUTHENTICATION_BACKENDS = [
+    'apps.accounts.backends.AuthBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 DJANGO_APPS = [
     "django.contrib.admin",
@@ -49,6 +54,7 @@ PROJECT_APPS = [
     "apps.files",
     "apps.meetings",
     "apps.notices",
+    "apps.products",
     "apps.profiles",
     "apps.push",
 ]
@@ -106,10 +112,10 @@ JWT_AUTH = {
     "JWT_VERIFY": True,
     "JWT_VERIFY_EXPIRATION": True,
     "JWT_LEEWAY": 0,
-    "JWT_EXPIRATION_DELTA": timedelta(seconds=30),
+    "JWT_EXPIRATION_DELTA": timedelta(minutes=30),
     "JWT_AUDIENCE": None,
     "JWT_ISSUER": None,
-    "JWT_ALLOW_REFRESH": False,
+    "JWT_ALLOW_REFRESH": True,
     "JWT_REFRESH_EXPIRATION_DELTA": timedelta(minutes=30),
     "JWT_AUTH_HEADER_PREFIX": "JWT",
     "JWT_AUTH_COOKIE": None,
