@@ -1,8 +1,17 @@
 from datetime import timedelta
 from pathlib import Path
 import os
+import environ
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+# root = environ.Path(__file__) - 3 # three folder back (/a/b/c/ - 3 = /)
+
+# 기본 값
+env = environ.Env() 
+
+# .env 파일이 있을 경우 읽어옴
+environ.Env.read_env()
+
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # 파일 저장 루트
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
@@ -20,12 +29,7 @@ URL_MAX_LEN = 500
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-8_=2(-8s%+ixzgb4-p+sw_dv@!(*)7==a3!kih+a^+y$$akw&3"
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ["*"]
+SECRET_KEY = env('SECRET_KEY')
 
 # 사용할 유저 모델 지정
 AUTH_USER_MODEL = "accounts.UserAccount"
@@ -112,11 +116,11 @@ JWT_AUTH = {
     "JWT_VERIFY": True,
     "JWT_VERIFY_EXPIRATION": True,
     "JWT_LEEWAY": 0,
-    "JWT_EXPIRATION_DELTA": timedelta(minutes=30),
+    "JWT_EXPIRATION_DELTA": timedelta(days=7),
     "JWT_AUDIENCE": None,
     "JWT_ISSUER": None,
     "JWT_ALLOW_REFRESH": True,
-    "JWT_REFRESH_EXPIRATION_DELTA": timedelta(minutes=30),
+    "JWT_REFRESH_EXPIRATION_DELTA": timedelta(days=28),
     "JWT_AUTH_HEADER_PREFIX": "JWT",
     "JWT_AUTH_COOKIE": None,
 }
@@ -140,17 +144,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "config.wsgi.application"
-
-
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
 
 
 # Password validation
