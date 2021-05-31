@@ -63,11 +63,14 @@ class UserAccountViewSet(viewsets.GenericViewSet):
 
     @action(methods=['POST'], detail=False)
     def send_certification_code(self, request):
+        """
+        인증번호 발송 및 인증정보 생성
+        """
 
         serializer = SendCodeSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.send_code()
-
-        print(serializer.data)
+        
+        #TODO: 인증 정보 생성 (UserCertification)
 
         return Response(status=status.HTTP_201_CREATED)
