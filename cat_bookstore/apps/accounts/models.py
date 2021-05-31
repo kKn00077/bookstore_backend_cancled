@@ -111,10 +111,12 @@ class UserCertification(models.Model):
     # SMS 인증 코드 길이
     MAX_SMS_CODE_LEN = 6
 
+    certification_id = models.AutoField(primary_key=True)
+
     account = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         verbose_name="유저 계정 정보",
-        primary_key=True,
+        null=True,
         on_delete=models.CASCADE,
         related_name="certification",
     )

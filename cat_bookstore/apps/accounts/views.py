@@ -2,8 +2,15 @@ from rest_framework.permissions import AllowAny
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.serializers import Serializer
 from .models import UserAccount
-from .serializers import UserAccountSerializer, UserAccountLoginSerializer
+
+from .serializers import (
+    UserAccountSerializer, 
+    UserAccountLoginSerializer, 
+    SendCodeSerializer, 
+    UserCertificationSerializer
+)
 
 
 class UserAccountViewSet(viewsets.GenericViewSet):
@@ -53,3 +60,15 @@ class UserAccountViewSet(viewsets.GenericViewSet):
             return Response({"message": "fail"}, status=status.HTTP_401_UNAUTHORIZED)
 
         return Response(token_result, status=status.HTTP_200_OK)
+
+
+    @action(methods=['POST'], detail=False)
+    def send_certification_code(self, request):
+
+        serializer = SendCodeSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.send_code()
+
+        print(serializer.data)
+
+        return Response(status=status.HTTP_201_CREATED)

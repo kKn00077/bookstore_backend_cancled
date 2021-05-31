@@ -3,8 +3,11 @@ from django.contrib.auth import get_user_model
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import update_last_login
-from django.contrib.auth.hashers import make_password
 from apps.profiles.models import UserProfile, OwnerUserProfile
+from .models import UserCertification
+from random import randint
+from django.utils import timezone
+from datetime import timedelta
 
 # JWT 사용을 위한 설정
 JWT_PAYLOAD_HANDLER = api_settings.JWT_PAYLOAD_HANDLER
@@ -123,3 +126,60 @@ class UserAccountLoginSerializer(serializers.ModelSerializer):
                 'User with given login_id(email or phone) and password does not exist')
 
         return { 'token': jwt_token }
+
+
+class SendCodeSerializer(serializers.Serializer):
+    """
+    유저 계정 생성 전 인증코드 관련 로직 수행 시리얼라이저
+    sms 인증 코드 생성/발송, email 인증 코드 생성/발송
+    """
+
+    is_email_cerifiation = serializers.BooleanField(default=False, write_only=True)
+
+    email = serializers.EmailField(max_length=255, required=False, allow_null=True, write_only=True)
+    phone = serializers.CharField(max_length=11, required=False, allow_null=True, write_only=True)
+
+    sms_code = serializers.IntegerField(read_only=True)
+    sms_time_limit = serializers.DateTimeField(read_only=True)
+
+    email_code = serializers.IntegerField(read_only=True)
+    email_time_limit = serializers.DateTimeField(read_only=True)
+
+    def validate(self, attrs):
+        is_email_cerifiation = attrs.get('is_email_cerifiation')
+        email = attrs.get('email', None)
+        phone = attrs.get('phone', None)
+
+        if(is_email_cerifiation):
+            if email is None:
+                raise serializers.ValidationError('email is None')
+        else:
+            if phone is None:
+                raise serializers.ValidationError('phone is None')
+
+        return attrs
+
+    def send_code(self):
+        is_email_cerifiation = self.validated_data["is_email_cerifiation"]
+        code = f'{randint(100000, 999999)}'
+        limit_time = timezone.now() + timedelta(minutes=3)
+        
+        # TODO: 발송 로직
+        if is_email_cerifiation:
+            self.validated_data["email_code"] = code
+            self.validated_data["email_time_limit"] = limit_time
+        else:
+            self.validated_data["sms_code"] = code
+            self.validated_data["sms_time_limit"] = limit_time
+
+
+
+
+
+class UserCertificationSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = UserCertification
+        fields = "__all__"
+
+    
