@@ -1,7 +1,7 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth import get_user_model
-from .models import UserProfile
+from .models import UserProfile, OwnerUserProfile
 
 UserAccount = get_user_model()
 
@@ -20,8 +20,13 @@ def save_user_profile(sender, instance, created, **kwargs):
             # 유저 프로필을 가져온다.
             profile = instance.profile
         except UserProfile.DoesNotExist:
-            # 못가져올 경우 사장님 프로필을 가져온다.
-            profile = instance.owner_profile
-        finally:
-            profile.save()
+
+            try:
+                # 못가져올 경우 사장님 프로필을 가져온다.
+                profile = instance.owner_profile
+            except OwnerUserProfile.DoesNotExist:
+                # 사장님 프로필 마저 없을 경우 superuser임
+                return None
+                
+        profile.save()
     
