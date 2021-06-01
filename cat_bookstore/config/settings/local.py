@@ -1,5 +1,8 @@
 from .base import *
 
+ADMIN_ID = env('ADMIN_ID')
+ADMIN_PW = env('ADMIN_PW')
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 

@@ -1,11 +1,14 @@
 from .base import *
 import os
 
+ADMIN_ID = env('ADMIN_ID')
+ADMIN_PW = env('ADMIN_PW')
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
 # TODO: 추후에 변경
-ALLOWED_HOSTS = ['Catbookstoredev-env.eba-2kspmfxk.ap-northeast-2.elasticbeanstalk.com', '127.0.0.1', "*"]
+ALLOWED_HOSTS = ['cat-bookstore-api.eba-2kspmfxk.ap-northeast-2.elasticbeanstalk.com', "*"]
 
 # TODO: 추후에 변경
 DATABASES = {
@@ -18,3 +21,5 @@ DATABASES = {
         'PORT': os.environ.get('RDS_PORT', env('DB_PORT'))
     }
 }
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
