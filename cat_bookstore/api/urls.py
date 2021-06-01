@@ -12,5 +12,6 @@ router.register(r"common/meetings", MeetingCommonViewset)
 router.register(r"category", CategoryViewSet)
 
 urlpatterns = [
-    path("", include(router.urls))
+    path("", include(router.urls)),
+    path("auth/", include(("api.auth.urls", "auth"), namespace="auth")),
 ]
