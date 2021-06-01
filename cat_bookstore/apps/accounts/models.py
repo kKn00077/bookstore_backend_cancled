@@ -117,6 +117,7 @@ class UserCertification(models.Model):
         settings.AUTH_USER_MODEL,
         verbose_name="유저 계정 정보",
         null=True,
+        blank=True,
         on_delete=models.CASCADE,
         related_name="certification",
     )
