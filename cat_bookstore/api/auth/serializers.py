@@ -24,6 +24,6 @@ class LoginSerializer(Serializer):
             raise ValidationError("check your account.")
 
         token = AccessToken.for_user(user)
-        setattr(attrs, token)
+        attrs["token"] = token
 
         return attrs

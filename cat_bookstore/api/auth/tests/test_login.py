@@ -10,6 +10,9 @@ from utils.test import APITestCase
 class LoginTestCase(APITestCase):
     def setUp(self):
         user = baker.make_recipe("apps.accounts.active_user")
+        user.set_password("test1234")
+        user.save()
+
         url = reverse("api:auth:login")
 
         self.user = user
@@ -17,3 +20,17 @@ class LoginTestCase(APITestCase):
 
     def test_login_without_data(self):
         self.post(self.url, data={}, expect_status=status.HTTP_400_BAD_REQUEST)
+
+    def test_login_with_email_for_wrong_password(self):
+        self.post(
+            self.url,
+            data={"email": self.user.email, "password": "test12345"},
+            expect_status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    def test_login_with_email(self):
+        result = self.post(
+            self.url, data={"email": self.user.email, "password": "test1234"}
+        )
+        self.check_field_exists(result, ["token"])
+        token = result["token"]
