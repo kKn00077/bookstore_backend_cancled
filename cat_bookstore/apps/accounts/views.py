@@ -3,7 +3,13 @@ from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from .models import UserAccount
-from .serializers import UserAccountSerializer, UserAccountLoginSerializer
+
+from .serializers import (
+    UserAccountSerializer, 
+    UserAccountLoginSerializer, 
+    SendCodeSerializer, 
+    UserCertificationSerializer
+)
 
 
 class UserAccountViewSet(viewsets.GenericViewSet):
@@ -53,3 +59,18 @@ class UserAccountViewSet(viewsets.GenericViewSet):
             return Response({"message": "fail"}, status=status.HTTP_401_UNAUTHORIZED)
 
         return Response(token_result, status=status.HTTP_200_OK)
+
+
+    @action(methods=['POST'], detail=False)
+    def send_certification_code(self, request):
+        """
+        인증번호 발송 및 인증정보 생성
+        """
+
+        serializer = SendCodeSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.send_code()
+        
+        #TODO: 인증 정보 생성 (UserCertification)
+
+        return Response(status=status.HTTP_201_CREATED)

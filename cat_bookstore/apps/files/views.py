@@ -1,21 +1,28 @@
-from rest_framework import viewsets, status
+from rest_framework import serializers, viewsets, status
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import AllowAny
+from rest_framework import mixins
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from .serializers import FileUploadSerializer
+from .serializers import FileUploadSerializer, FileGroupUploadSerializer
 from .models import File, FileGroup
 
-class FileViewset(viewsets.GenericViewSet):
+class FileViewset(viewsets.GenericViewSet, mixins.CreateModelMixin):
     """
         파일 작업 관련 viewset
     """
+
+    def get_serializer_class(self):
+        return self.serializer_classes[self.action]
 
     # 기본 쿼리셋
     queryset = File.objects.all()
 
     # 사용되는 serializer 클래스
-    serializer_class = FileUploadSerializer
+    serializer_classes = {
+        'upload_file': FileUploadSerializer,
+        'upload_file_group': FileGroupUploadSerializer,
+    }
 
     # 해당 viewset에서 사용되는 기본 권한
     permission_classes = [AllowAny]
@@ -26,20 +33,20 @@ class FileViewset(viewsets.GenericViewSet):
     @action(methods=['POST'], detail=False)
     def upload_file(self, request):
         """
-            TODO: 단일 파일 업로드
+            단일 파일 업로드
         """
 
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
+        response = self.create(request)
         
-        return Response(status=status.HTTP_201_CREATED)
+        return response
 
 
     @action(methods=['POST'], detail=False)
     def upload_file_group(self, request):
         """
-            TODO: 묶음 파일 업로드
+            묶음 파일 업로드
         """
         
-        return Response(status=status.HTTP_201_CREATED)
+        response = self.create(request)
+        
+        return response

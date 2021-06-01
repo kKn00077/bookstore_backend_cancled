@@ -26,8 +26,6 @@ class MeetingCRMViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
     def register(self, request):
         """
             미팅 등록
-
-            TODO: file 등록
         """
         account = request.user
         bookstore = account.bookstore
@@ -54,7 +52,17 @@ class MeetingCommonViewset(viewsets.GenericViewSet, mixins.ListModelMixin):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return super().get_queryset()
+
+        queryset = self.queryset
+
+        status = self.request.query_params.get('status', None)
+
+        if status is not None:
+            queryset = queryset.filter(status=status)
+            
+        queryset.order_by('-meeting_date')
+
+        return queryset
 
     @action(methods=['GET'], detail=False)
     def get_meeting_list(self, request):

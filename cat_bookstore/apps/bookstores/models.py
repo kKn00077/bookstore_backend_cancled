@@ -1,5 +1,6 @@
 from apps.books.models import Books
 from apps.products.models import BookStock
+from apps.profiles.models import CategorySubscribe
 from django.db import models
 from model_utils.models import TimeStampedModel
 from django.contrib.auth import get_user_model
@@ -90,8 +91,13 @@ class BookstoreCategory(models.Model):
         on_delete=models.CASCADE
     )
 
-    category_type = models.CharField("카테고리명", max_length=30)
-
+    # default = 1 -> 기타 카테고리
+    category = models.ForeignKey(
+        "Category",
+        verbose_name="카테고리",
+        on_delete=models.SET_DEFAULT,
+        default=1
+    )
 
     class Meta:
         ordering = ["-bookstores_category_id"]
@@ -101,6 +107,36 @@ class BookstoreCategory(models.Model):
 
     def __str__(self):
         return f"{self.bookstore} - {self.category_type}"
+
+
+class Category(models.Model):
+    """
+    카테고리 분류
+    """
+
+    category_id = models.AutoField(primary_key=True)
+    name = models.CharField("카테고리명", max_length=30)
+
+    # 서점 카테고리
+    bookstore = models.ManyToManyField(
+        Bookstore, through=BookstoreCategory, related_name="category"
+    )
+
+    # 카테고리 구독 사용자
+    account = models.ManyToManyField(
+        UserAccount, through=CategorySubscribe, related_name="subscribe_category"
+    )
+
+    class Meta:
+        ordering = ["-category_id"]
+
+        verbose_name = "카테고리 분류"
+        verbose_name_plural = "카테고리 분류"
+
+    def __str__(self):
+        return f"{self.name}"
+
+
 
 class SubscribeInfo(models.Model):
     """

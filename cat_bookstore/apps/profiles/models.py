@@ -2,7 +2,9 @@ from django.db import models
 from django.conf import settings
 from model_utils import Choices
 from model_utils.fields import StatusField
+from django.contrib.auth import get_user_model
 
+UserAccount = get_user_model()
 
 class UserProfile(models.Model):
     """
@@ -14,7 +16,7 @@ class UserProfile(models.Model):
     profile_id = models.AutoField(primary_key=True)
 
     account = models.OneToOneField(
-        settings.AUTH_USER_MODEL,
+        UserAccount,
         on_delete=models.CASCADE,
         related_name="profile",
     )
@@ -64,7 +66,7 @@ class OwnerUserProfile(models.Model):
     profile_id = models.AutoField(primary_key=True)
 
     account = models.OneToOneField(
-        settings.AUTH_USER_MODEL,
+        UserAccount,
         on_delete=models.CASCADE,
         related_name="owner_profile",
     )
@@ -101,3 +103,35 @@ class OwnerUserProfile(models.Model):
 
     def __str__(self):
         return f"{self.nickname} - {self.account}"
+
+
+class CategorySubscribe(models.Model):
+    """
+    사용자 카테고리 구독 정보
+
+    서점 구독 정보 같은 경우에는 이미 있는 서점을 구독하는 것이므로 bookstore models에,
+    카테고리 구독 정보 같은 경우에는 가입 시에 기본적으로 받는 정보이므로 profile models에 정의함.
+    """
+
+    category_subscribe_id = models.AutoField(primary_key=True)
+
+    account = models.ForeignKey(
+        UserAccount,
+        verbose_name="사용자 계정 정보",
+        on_delete=models.CASCADE
+    )
+    
+    category = models.ForeignKey(
+        "bookstores.Category",
+        verbose_name="카테고리",
+        on_delete=models.CASCADE
+    )
+
+    class Meta:
+        ordering = ["-category_subscribe_id"]
+
+        verbose_name = "사용자 카테고리 구독 정보"
+        verbose_name_plural = "사용자 카테고리 구독 정보"
+
+    def __str__(self):
+        return f"{self.account} - {self.category}"
