@@ -71,7 +71,7 @@ class UserAccount(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
     # 관리자 페이지 접근 권한
     is_staff = models.BooleanField("관리자 페이지 접근 권한", default=False)
 
-    email = models.EmailField("이메일", max_length=255, unique=True, null=True)
+    email = models.EmailField("이메일", max_length=255, unique=True, null=True, blank=True)
     phone = models.CharField("휴대폰 번호", max_length=11, unique=True)
 
     status = models.CharField(
