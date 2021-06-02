@@ -54,7 +54,6 @@ class UserAccountViewSet(viewsets.GenericViewSet):
         serializer = UserAccountLoginSerializer(data=request.data)
         serializer.is_valid()
         token_result = serializer.login(serializer.data)
-
         if token_result is None:
             return Response({"message": "fail"}, status=status.HTTP_401_UNAUTHORIZED)
 

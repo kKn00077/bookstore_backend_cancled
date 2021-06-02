@@ -70,12 +70,12 @@ class UserAccountSerializer(serializers.ModelSerializer):
     
 
 class UserAccountLoginSerializer(serializers.ModelSerializer):
-    
+    is_crm = serializers.BooleanField(required=False, allow_null=True, default=False)
 
     # 로그인에 필요한 정보
     class Meta:
         model = UserAccount
-        fields = ['email', 'phone', 'password']
+        fields = ['email', 'phone', 'password', 'is_crm']
         extra_kwargs = {
             'email': {"required": False, "allow_null": True},
             'phone': {"required": False, "allow_null": True},
@@ -105,14 +105,13 @@ class UserAccountLoginSerializer(serializers.ModelSerializer):
         email = data.get('email')
         phone = data.get('phone')
         password = data.get('password')
-
-        is_owner = data.get('is_owner', None)
-
+        is_crm = data.get('is_crm')
+        
         # 사용자 정보로 로그인 (phone 이 없을 경우 이메일 로그인 시도)
         if phone is not None:
-            account = authenticate(phone=phone, password=password, is_owner=is_owner)
+            account = authenticate(username=phone, password=password, is_crm=is_crm)
         else:
-            account = authenticate(email=email, password=password, is_owner=is_owner)
+            account = authenticate(email=email, password=password, is_crm=is_crm)
 
         if account is None: 
             return None
