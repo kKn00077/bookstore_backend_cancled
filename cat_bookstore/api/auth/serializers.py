@@ -4,6 +4,8 @@ from rest_framework import fields
 from rest_framework.serializers import Serializer, ValidationError
 from rest_framework_simplejwt.tokens import AccessToken
 
+from apps.accounts.models import UserAccount
+
 
 class LoginSerializer(Serializer):
     email = fields.EmailField(label="이메일", write_only=True, required=False)
@@ -27,3 +29,13 @@ class LoginSerializer(Serializer):
         attrs["token"] = token
 
         return attrs
+
+
+class SignupSerializer(Serializer):
+    email = fields.EmailField(label="이메일")
+    password = fields.CharField(label="비밀번호")
+
+    def save(self):
+        data = self.validated_data
+        user = UserAccount.objects.create(**data)
+        return user

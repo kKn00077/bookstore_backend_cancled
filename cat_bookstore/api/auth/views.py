@@ -13,3 +13,15 @@ class LoginAPIView(GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         return Response(serializer.data)
+
+
+class SignupAPIView(GenericAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = serializers.SignupSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data)

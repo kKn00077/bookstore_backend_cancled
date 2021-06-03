@@ -18,9 +18,11 @@ class LoginTestCase(APITestCase):
         self.user = user
         self.url = url
 
+    @tag("fail")
     def test_login_without_data(self):
         self.post(self.url, data={}, expect_status=status.HTTP_400_BAD_REQUEST)
 
+    @tag("fail")
     def test_login_with_email_for_wrong_password(self):
         self.post(
             self.url,
@@ -28,6 +30,7 @@ class LoginTestCase(APITestCase):
             expect_status=status.HTTP_400_BAD_REQUEST,
         )
 
+    @tag("success")
     def test_login_with_email(self):
         result = self.post(
             self.url, data={"email": self.user.email, "password": "test1234"}
