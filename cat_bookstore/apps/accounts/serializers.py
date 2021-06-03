@@ -124,7 +124,7 @@ class UserAccountLoginSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 'User with given login_id(email or phone) and password does not exist')
 
-        return { 'token': jwt_token }
+        return { 'token': jwt_token, 'status':account.status }
 
 
 class SendCodeSerializer(serializers.Serializer):
