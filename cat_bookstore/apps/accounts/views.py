@@ -1,3 +1,4 @@
+from apps import exceptions
 from rest_framework.permissions import AllowAny
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
@@ -55,7 +56,7 @@ class UserAccountViewSet(viewsets.GenericViewSet):
         serializer.is_valid()
         token_result = serializer.login(serializer.data)
         if token_result is None:
-            return Response({"message": "fail"}, status=status.HTTP_401_UNAUTHORIZED)
+            raise exceptions.CommonExceptions.UserNotFound()
 
         return Response(token_result, status=status.HTTP_200_OK)
 

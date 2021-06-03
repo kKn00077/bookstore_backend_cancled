@@ -100,6 +100,7 @@ REST_FRAMEWORK = {
         "rest_framework.parsers.FormParser",
         "rest_framework.parsers.MultiPartParser",
     ],
+    'EXCEPTION_HANDLER': 'apps.exceptions.catbookstore_exception_handler'
 }
 
 JWT_AUTH = {
