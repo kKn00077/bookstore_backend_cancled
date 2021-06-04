@@ -7,10 +7,10 @@ ADMIN_PW = env('ADMIN_PW')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-# TODO: 추후에 변경
-ALLOWED_HOSTS = ['cat-bookstore-api.eba-2kspmfxk.ap-northeast-2.elasticbeanstalk.com', "*"]
 
-# TODO: 추후에 변경
+ALLOWED_HOSTS = ['catbookstore.co.kr', 'cat-bookstore-api.eba-2kspmfxk.ap-northeast-2.elasticbeanstalk.com', "*"]
+
+
 DATABASES = {
     'default' : {
         'ENGINE': 'django.db.backends.mysql',
