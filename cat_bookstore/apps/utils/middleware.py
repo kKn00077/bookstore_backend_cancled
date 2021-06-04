@@ -61,8 +61,8 @@ class AppUpdateCheckMiddleware:
 
         # header값이 없거나 버전을 찾을 수 없는 경우
         if version_queryset.count() <= 0:
-            return JsonResponse({"message" : "App-Version is not found"},
-                                    status=status.HTTP_404_NOT_FOUND,
+            return JsonResponse({"message" : "App-Version is not found in headers"},
+                                    status=status.HTTP_400_BAD_REQUEST,
                                     headers={'App-Version-Status':'UNKNOWN'})
         
         # 업데이트 필수
