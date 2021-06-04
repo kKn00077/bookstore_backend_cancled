@@ -23,7 +23,7 @@ class AppHeaderMiddleware:
         
         user_agent=request.headers.get('User-Agent', 'undefined')
         user_agent_lower = user_agent.lower()
-
+        
         # ANDROID 플랫폼 리스트 중에 해당되는 게 있는지
         if any(android_platform for android_platform in ANDROID if android_platform in user_agent_lower):
             platform = 'android'
@@ -55,27 +55,28 @@ class AppUpdateCheckMiddleware:
 
     def process_view(self, request, view_func, view_args, view_kwargs):
 
+        user_agent = request.headers.get('User-Agent', 'undefined').lower()
         app_version=request.headers.get('App-Version', None)
         version_queryset = AppVersion.objects.filter(version=app_version)
 
-
-        # header값이 없거나 버전을 찾을 수 없는 경우
-        if version_queryset.count() <= 0:
-            return JsonResponse({"message" : "App-Version is not found in headers"},
-                                    status=status.HTTP_400_BAD_REQUEST,
-                                    headers={'App-Version-Status':'UNKNOWN'})
-        
-        # 업데이트 필수
-        if version_queryset[0].status == VersionStatusChoice.UPDATE_REQUIRED:
-            return JsonResponse({"message" : "App-Version is black-list"},
-                                    status=status.HTTP_403_FORBIDDEN,
-                                    headers={'App-Version-Status':VersionStatusChoice.UPDATE_REQUIRED})
+        if 'mobile' in user_agent:
+            # header값이 없거나 버전을 찾을 수 없는 경우
+            if version_queryset.count() <= 0:
+                return JsonResponse({"message" : "App-Version is not found in headers"},
+                                        status=status.HTTP_400_BAD_REQUEST,
+                                        headers={'App-Version-Status':'UNKNOWN'})
+            
+            # 업데이트 필수
+            if version_queryset[0].status == VersionStatusChoice.UPDATE_REQUIRED:
+                return JsonResponse({"message" : "App-Version is black-list"},
+                                        status=status.HTTP_403_FORBIDDEN,
+                                        headers={'App-Version-Status':VersionStatusChoice.UPDATE_REQUIRED})
 
 
     def process_response(self, request, response):
         status=response.get('App-Version-Status', None)
 
-        if status != 'UNKNOWN':
+        if status != 'UNKNOWN' and status is not None:
             app_version=request.headers.get('App-Version')
             version_queryset = AppVersion.objects.get(version=app_version)
 
