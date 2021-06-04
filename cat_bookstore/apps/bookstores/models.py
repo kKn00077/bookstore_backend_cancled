@@ -106,7 +106,7 @@ class BookstoreCategory(models.Model):
         verbose_name_plural = "서점 카테고리"
 
     def __str__(self):
-        return f"{self.bookstore} - {self.category_type}"
+        return f"{self.bookstore} - {self.category}"
 
 
 class Category(models.Model):
