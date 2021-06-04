@@ -61,6 +61,7 @@ PROJECT_APPS = [
     "apps.products",
     "apps.profiles",
     "apps.push",
+    "apps.utils"
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + PROJECT_APPS
@@ -73,6 +74,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "apps.utils.middleware.AppHeaderMiddleware",
+    "apps.utils.middleware.AppUpdateCheckMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -100,7 +103,7 @@ REST_FRAMEWORK = {
         "rest_framework.parsers.FormParser",
         "rest_framework.parsers.MultiPartParser",
     ],
-    'EXCEPTION_HANDLER': 'apps.exceptions.catbookstore_exception_handler'
+    'EXCEPTION_HANDLER': 'apps.utils.exceptions.catbookstore_exception_handler'
 }
 
 JWT_AUTH = {
