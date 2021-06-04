@@ -80,7 +80,7 @@ class AppUpdateCheckMiddleware:
 
     def process_response(self, request, response):
         user_agent = request.headers.get('User-Agent', 'undefined').lower()
-        status=response.get('App-Version-Status', None)
+        status = response.get('App-Version-Status', None)
         
         if 'mobile' in user_agent:
             if status != 'UNKNOWN':
