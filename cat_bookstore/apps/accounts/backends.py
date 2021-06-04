@@ -21,7 +21,8 @@ class AuthBackend(ModelBackend):
             email, phone, password를 선택적으로 인자로 받아서
             해당 정보를 바탕으로 유저 정보를 가져옴
         """
-
+        
+        username = kwargs.get('phone')
         is_crm = kwargs.get('is_crm', False)
         
         try:
@@ -31,7 +32,7 @@ class AuthBackend(ModelBackend):
             # phone 정보가 없을 경우 email을 통해 유저 정보를 가져옴
             else:
                 user = UserAccount.objects.get(~Q(status='DELETED'), email=kwargs['email'])
-
+            
             # CRM 로그인일 경우 사장님인지 아닌지 체크
             if is_crm:
                 user.owner_profile
