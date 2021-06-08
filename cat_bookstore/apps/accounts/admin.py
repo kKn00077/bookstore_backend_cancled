@@ -1,6 +1,5 @@
 from django.contrib import admin
-from .models import UserAccount, UserCertification
+from .models import UserAccount
 
 
 admin.site.register(UserAccount)
-admin.site.register(UserCertification)
