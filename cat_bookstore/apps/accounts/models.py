@@ -7,7 +7,7 @@ from django.contrib.auth.models import (
 from django.conf import settings
 from model_utils.models import TimeStampedModel
 
-from .enums import UserStatusChoice
+from .enums import UserStatusChoice, CertificationTypeChoice
 
 
 class UserManager(BaseUserManager):
@@ -100,42 +100,33 @@ class UserAccount(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
         return f"{self.phone} ({self.email})"
 
 
-class UserCertification(models.Model):
+class Certification(TimeStampedModel):
     """
-    유저 인증 정보
+    인증 정보
     """
 
-    # 이메일 인증 코드 길이
-    MAX_EMAIL_CODE_LEN = 6
-
-    # SMS 인증 코드 길이
-    MAX_SMS_CODE_LEN = 6
+    # 인증 코드 길이
+    MAX_CODE_LEN = 6
 
     certification_id = models.AutoField(primary_key=True)
 
-    account = models.OneToOneField(
-        settings.AUTH_USER_MODEL,
-        verbose_name="유저 계정 정보",
-        null=True,
-        blank=True,
-        on_delete=models.CASCADE,
-        related_name="certification",
-    )
+    is_verified = models.BooleanField("인증 여부", default=False)
 
-    is_sms_verified = models.BooleanField("SMS 인증 여부", default=False)
-    is_email_verified = models.BooleanField("이메일 인증 여부", default=False)
+    certification_type = models.CharField("인증 타입", 
+                                            max_length=30,
+                                            choices=CertificationTypeChoice.choices)
 
-    sms_code = models.CharField("SMS 인증 코드", max_length=MAX_SMS_CODE_LEN, null=True)
-    email_code = models.CharField("이메일 인증 코드", max_length=MAX_EMAIL_CODE_LEN, null=True)
+    address = models.CharField("인증 주소", max_length=50, help_text="이메일 주소 혹은 핸드폰 번호")
 
-    sms_time_limit = models.DateTimeField("SMS 인증 제한 일시", null=True)
-    email_time_limit = models.DateTimeField("이메일 인증 제한 일시", null=True)
+    code = models.CharField("인증 코드", max_length=MAX_CODE_LEN)
+
+    limit_time = models.DateTimeField("인증 제한 일시")
 
     class Meta:
-        ordering = ["-account"]
+        ordering = ["-certification_id"]
 
-        verbose_name = "유저 인증 정보"
-        verbose_name_plural = "유저 인증 정보"
+        verbose_name = "인증 정보"
+        verbose_name_plural = "인증 정보"
 
     def __str__(self):
-        return f"{self.account}"
+        return f"{self.address}"

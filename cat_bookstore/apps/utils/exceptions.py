@@ -57,11 +57,24 @@ def catbookstore_exception_handler(exc, context):
 
 
 class AppExceptions:
-    class ExampleException(APIException):
-        error_code = None
-        status_code = 400
-        default_detail = ''
-        default_code = ''
+    class CertificationTimedOut(APIException):
+        error_code = 1000
+        status_code = 401
+        default_detail = 'Certification timed out'
+        default_code = 'certification_timed_out'
+    
+    class CertificationCodeNotMatch(APIException):
+        error_code = 1001
+        status_code = 403
+        default_detail = 'Certification code is not match'
+        default_code = 'certification_code_is_not_match'
+
+    class AlreadyCertified(APIException):
+        error_code = 1002
+        status_code = 403
+        default_detail = 'Already certified'
+        default_code = 'already_certified'
+
 
 class CRMExceptions:
     class ExampleException(APIException):
