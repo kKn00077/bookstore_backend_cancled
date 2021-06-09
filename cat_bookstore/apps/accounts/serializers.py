@@ -53,7 +53,7 @@ class CertificationSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError("phone or email is required.")
         else:
             code = attrs.get('code', None)
-            print(self.instance)
+            
             if self.instance.is_verified:
                 raise AppExceptions.AlreadyCertified()
 
