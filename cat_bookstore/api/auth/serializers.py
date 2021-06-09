@@ -1,6 +1,7 @@
 from django.contrib import auth
 from django.contrib.auth import authenticate
 from rest_framework import fields
+from rest_framework import exceptions
 from rest_framework.serializers import Serializer, ValidationError
 from rest_framework_simplejwt.tokens import AccessToken
 
@@ -15,6 +16,8 @@ class LoginSerializer(Serializer):
 
     token = fields.CharField(label="토큰", read_only=True)
 
+    is_crm = fields.BooleanField(label="CRM 로그인 여부", write_only=True, default=False)
+
     def validate(self, attrs):
         email = attrs.get("email")
         phone = attrs.get("phone")
@@ -23,8 +26,9 @@ class LoginSerializer(Serializer):
             raise ValidationError("phone or email is required.")
 
         user = authenticate(**attrs)
+        
         if user is None:
-            raise ValidationError("check your account.")
+            raise exceptions.AuthenticationFailed("check your account.")
 
         token = AccessToken.for_user(user)
         attrs["token"] = token

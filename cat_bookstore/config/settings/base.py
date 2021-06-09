@@ -37,7 +37,7 @@ AUTH_USER_MODEL = "accounts.UserAccount"
 # 인증 커스텀 백엔드
 AUTHENTICATION_BACKENDS = [
     "apps.accounts.backends.AuthBackend",
-    "django.contrib.auth.backends.ModelBackend",
+    # "django.contrib.auth.backends.ModelBackend",
 ]
 
 DJANGO_APPS = [
