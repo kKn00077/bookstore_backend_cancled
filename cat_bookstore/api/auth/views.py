@@ -25,4 +25,7 @@ class SignupAPIView(GenericAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        login_serializer = serializers.LoginSerializer(data=serializer.data)
+        login_serializer.is_valid(raise_exception=True)
+
+        return Response(login_serializer.data, status=status.HTTP_201_CREATED)
