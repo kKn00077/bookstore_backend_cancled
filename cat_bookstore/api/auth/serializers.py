@@ -15,6 +15,7 @@ class LoginSerializer(Serializer):
     password = fields.CharField(label="비밀번호", write_only=True)
 
     token = fields.CharField(label="토큰", read_only=True)
+    status = fields.CharField(label="계정 상태", read_only=True)
 
     is_crm = fields.BooleanField(label="CRM 로그인 여부", write_only=True, default=False)
 
@@ -32,6 +33,7 @@ class LoginSerializer(Serializer):
 
         token = AccessToken.for_user(user)
         attrs["token"] = token
+        attrs["status"] = user.status
 
         return attrs
 
