@@ -27,7 +27,7 @@ class LoginTestCase(APITestCase):
         self.post(
             self.url,
             data={"email": self.user.email, "password": "test12345"},
-            expect_status=status.HTTP_400_BAD_REQUEST,
+            expect_status=status.HTTP_401_UNAUTHORIZED,
         )
 
     @tag("success")

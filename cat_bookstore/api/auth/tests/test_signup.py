@@ -31,7 +31,7 @@ class SignupTestCase(APITestCase):
     def test_signup(self):
         test_email = "test@gmail.com"
         test_password = "test1234"
-        self.post(self.url, data={"email": test_email, "password": test_password})
+        self.post(self.url, data={"email": test_email, "password": test_password}, expect_status=status.HTTP_201_CREATED)
 
         login_url = reverse("api:auth:login")
         self.post(login_url, data={"email": test_email, "password": test_password})
