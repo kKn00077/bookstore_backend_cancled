@@ -21,8 +21,9 @@ class AuthBackend(ModelBackend):
             email, phone, password를 선택적으로 인자로 받아서
             해당 정보를 바탕으로 유저 정보를 가져옴
         """
+        if not username:
+            username = kwargs.get('phone')
         
-        username = kwargs.get('phone')
         is_crm = kwargs.get('is_crm', False)
         
         try:
