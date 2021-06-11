@@ -62,7 +62,7 @@ class AppUpdateCheckMiddleware:
         if 'mobile' in user_agent:
             # header값이 없거나 버전을 찾을 수 없는 경우
             if version_queryset.count() <= 0:
-                return JsonResponse({"message" : "App-Version is not found in headers"},
+                return JsonResponse({"message" : "App-Version is not found"},
                                         status=status.HTTP_400_BAD_REQUEST,
                                         headers={
                                             'App-Version-Status':'UNKNOWN', 
