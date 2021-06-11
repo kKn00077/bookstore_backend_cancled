@@ -84,8 +84,14 @@ class CRMExceptions:
         default_code = ''
 
 class CommonExceptions:
-    class UserNotFound(APIException):
+    class AlreadyUseEmail(APIException):
         error_code = 2003
-        status_code = 401
-        default_detail = 'User is not found'
-        default_code = 'user_not_found'
+        status_code = 400
+        default_detail = 'Already use email'
+        default_code = 'already_use_email'
+
+    class AlreadyUsePhone(APIException):
+        error_code = 2004
+        status_code = 400
+        default_detail = 'Already use phone'
+        default_code = 'already_use_phone'

@@ -7,6 +7,7 @@ from rest_framework_simplejwt.tokens import AccessToken
 
 from apps.accounts.models import UserAccount
 from apps.profiles.models import UserProfile, OwnerUserProfile
+from apps.utils.exceptions import CommonExceptions
 
 
 class LoginSerializer(Serializer):
@@ -50,6 +51,14 @@ class SignupSerializer(Serializer):
 
         if not email and not phone:
             raise ValidationError("phone or email is required.")
+
+        if phone:
+            if UserAccount.objects.filter(phone=phone).exists():
+                raise CommonExceptions.AlreadyUsePhone()
+
+        if email:
+            if UserAccount.objects.filter(email=email).exists():
+                raise CommonExceptions.AlreadyUseEmail()
 
         return attrs
 
