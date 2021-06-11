@@ -33,7 +33,7 @@ class FileViewset(viewsets.GenericViewSet, mixins.CreateModelMixin):
     @action(methods=['POST'], detail=False)
     def upload_file(self, request):
         """
-            단일 파일 업로드
+        단일 파일 업로드
         """
 
         response = self.create(request)
@@ -44,7 +44,7 @@ class FileViewset(viewsets.GenericViewSet, mixins.CreateModelMixin):
     @action(methods=['POST'], detail=False)
     def upload_file_group(self, request):
         """
-            묶음 파일 업로드
+        묶음 파일 업로드
         """
         
         response = self.create(request)

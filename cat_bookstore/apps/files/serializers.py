@@ -17,8 +17,8 @@ class FileGroupUploadSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         """
-            request에서 보내는 files 데이터를 serializer files 필드에서 참조
-            가져온 files 데이터를 파일 그룹을 생성한 뒤 그 값을 fk로 설정해 DB에 업로드 한다.
+        request에서 보내는 files 데이터를 serializer files 필드에서 참조
+        가져온 files 데이터를 파일 그룹을 생성한 뒤 그 값을 fk로 설정해 DB에 업로드 한다.
         """
         files = validated_data.pop('files')
         group = self.create_file_group()

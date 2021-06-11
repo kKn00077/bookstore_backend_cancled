@@ -10,7 +10,7 @@ from .models import Meeting
 
 class MeetingCRMViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
     """
-        CRM 미팅 관련 관리하는 viewset
+    CRM 미팅 관련 관리하는 viewset
     """
 
     # 기본 쿼리셋
@@ -25,7 +25,7 @@ class MeetingCRMViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
     @action(methods=['POST'], detail=False)
     def register(self, request):
         """
-            미팅 등록
+        미팅 등록
         """
         account = request.user
         bookstore = account.bookstore
@@ -39,7 +39,7 @@ class MeetingCRMViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
 
 class MeetingCommonViewset(viewsets.GenericViewSet, mixins.ListModelMixin):
     """
-        앱/CRM 공통 접근 가능한 모임 관련 viewset
+    앱/CRM 공통 접근 가능한 모임 관련 viewset
     """
 
     # 기본 쿼리셋
@@ -67,7 +67,7 @@ class MeetingCommonViewset(viewsets.GenericViewSet, mixins.ListModelMixin):
     @action(methods=['GET'], detail=False)
     def get_meeting_list(self, request):
         """
-            TODO: 미팅 리스트 호출
+        미팅 리스트 호출
         """
         
         response = self.list(request)

@@ -6,7 +6,7 @@ from .utils import upload_to_file
 
 class FileGroup(TimeStampedModel):
     """
-        묶음 파일 관련 정보
+    묶음 파일 관련 정보
     """
 
     file_group_id = models.AutoField(primary_key=True)
@@ -19,17 +19,17 @@ class FileGroup(TimeStampedModel):
 
 class File(TimeStampedModel):
     """
-        파일 업로드 관련 정보
+    파일 업로드 관련 정보
 
-        필드 순서를 바꾸는 것을 권장하지 않음.
-        바꿔도 가능한 file 필드가 file_id, file_group을 제외하고 가장 상단에 위치할 수 있도록 유지.
+    필드 순서를 바꾸는 것을 권장하지 않음.
+    바꿔도 가능한 file 필드가 file_id, file_group을 제외하고 가장 상단에 위치할 수 있도록 유지.
 
-        upload_to_file 함수에서 경로 설정과 동시에 
-        instance에 저장할 파일명, 원본 파일명을 설정하는데,
-        이때 file가 name, origin_name, file_type, size 보다 하단에 있을 경우
-        해당 필드들을 찾지 못해 데이터가 들어가지 않게 된다.
+    upload_to_file 함수에서 경로 설정과 동시에 
+    instance에 저장할 파일명, 원본 파일명을 설정하는데,
+    이때 file가 name, origin_name, file_type, size 보다 하단에 있을 경우
+    해당 필드들을 찾지 못해 데이터가 들어가지 않게 된다.
 
-        https://pythonq.com/so/python/481094 
+    https://pythonq.com/so/python/481094 
     """
 
     file_id = models.AutoField(primary_key=True)
