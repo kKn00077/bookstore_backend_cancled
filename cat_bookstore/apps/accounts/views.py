@@ -34,7 +34,7 @@ class CertificationViewSet(viewsets.GenericViewSet,
 
         return response
 
-    @action(methods=["PUT"], detail=True)
+    @action(methods=["POST"], detail=True)
     def check_certification(self, request, pk=None):
         """
         인증번호 인증 체크
