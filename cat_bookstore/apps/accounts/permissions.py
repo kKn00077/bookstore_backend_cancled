@@ -14,5 +14,5 @@ class IsOwnerAuthenticated(permissions.BasePermission):
             account.owner_profile
             return True
         except OwnerUserProfile.DoesNotExist:
-            account.profile
+            # account.profile
             return False
