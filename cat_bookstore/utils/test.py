@@ -5,7 +5,7 @@ from rest_framework_simplejwt.tokens import AccessToken
 
 class APITestCase(TestCase):
     def _get_token(self, user):
-        return AccessToken.for_user(user).access_token
+        return AccessToken.for_user(user)
 
     def _get_authorization(self, user):
         return f"Bearer {self._get_token(user)}"
