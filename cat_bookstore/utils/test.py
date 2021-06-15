@@ -42,7 +42,10 @@ class APITestCase(TestCase):
         result = res.json()
 
         if has_pagination:
-            self.assertIsInstance(result, list)
+            if result.get("results") is not None:
+                self.assertIsInstance(result["results"], list)
+            else:
+                self.assertIsInstance(result, list)
 
         return result
 
