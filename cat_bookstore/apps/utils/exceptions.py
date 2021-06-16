@@ -30,8 +30,12 @@ def catbookstore_exception_handler(exc, context):
 
             if isinstance(response.data, list):
                 if isinstance(response.data[-1], dict):
-                    targets = [[{'string': key, 'code': val[0].code} for key, val in d.items()][0] for d in
-                               response.data]
+                    targets = []
+                    for d in response.data:
+                        errors = []
+                        for key, val in d.items():
+                            errors.append({'string':key, 'code':val[0].code})
+                        targets.append(errors)
                 else:
                     targets = [{'string': str(error_detail), 'code': error_detail.code} for error_detail in
                                response.data]
