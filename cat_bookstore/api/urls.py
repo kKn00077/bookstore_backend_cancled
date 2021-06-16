@@ -5,6 +5,7 @@ from apps.accounts.views import CertificationViewSet
 from apps.files.views import FileViewset
 from apps.meetings.views import MeetingCRMViewSet, MeetingCommonViewset
 from apps.bookstores.views import CategoryViewSet
+from apps.profiles.views import CategorySubscribeViewset
 
 router = routers.SimpleRouter()
 router.register(r"certification", CertificationViewSet)
@@ -12,6 +13,7 @@ router.register(r"upload", FileViewset)
 router.register(r"crm/meetings", MeetingCRMViewSet)
 router.register(r"common/meetings", MeetingCommonViewset)
 router.register(r"category", CategoryViewSet)
+router.register(r"profile/category", CategorySubscribeViewset)
 
 urlpatterns = [
     path("", include(router.urls)),
