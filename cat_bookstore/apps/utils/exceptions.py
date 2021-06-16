@@ -95,3 +95,9 @@ class CommonExceptions:
         status_code = 400
         default_detail = 'Already use phone'
         default_code = 'already_use_phone'
+
+    class NotFoundUser(APIException):
+        error_code = 2005
+        status_code = 404
+        default_detail = "User isn't found"
+        default_code = "user_is_not_found"
